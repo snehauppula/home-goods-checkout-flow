@@ -54,6 +54,7 @@ const Navbar: React.FC = () => {
         <div className="hidden lg:flex items-center space-x-8">
           <Link to="/" className="text-charcoal hover:text-sage transition-colors">Home</Link>
           <Link to="/about" className="text-charcoal hover:text-sage transition-colors">About</Link>
+          <Link to="/products" className="text-charcoal hover:text-sage transition-colors">Products</Link>
           {isLoggedIn ? (
             <>
               <Link to="/admin" className="text-charcoal hover:text-sage transition-colors">Admin</Link>
@@ -102,6 +103,13 @@ const Navbar: React.FC = () => {
               onClick={() => setIsMenuOpen(false)}
             >
               About
+            </Link>
+            <Link 
+              to="/products" 
+              className="py-2 text-charcoal hover:text-sage transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Products
             </Link>
             {isLoggedIn ? (
               <>
