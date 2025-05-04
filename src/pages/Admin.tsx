@@ -27,13 +27,14 @@ import { toast } from 'sonner';
 import { useProducts } from '@/context/ProductContext';
 import { Product } from '@/lib/types';
 import { formatCurrency } from '@/lib/data';
+import ImageUploader from '@/components/ImageUploader';
 
 const formSchema = z.object({
   name: z.string().min(3, { message: 'Product name must be at least 3 characters' }),
   price: z.string().regex(/^\d+(\.\d{1,2})?$/, { message: 'Enter a valid price' }),
   category: z.string().min(1, { message: 'Category is required' }),
   description: z.string().optional(),
-  image: z.string().url({ message: 'Please enter a valid image URL' }),
+  image: z.string().min(1, { message: 'Product image is required' }),
 });
 
 const categories = [
@@ -124,48 +125,50 @@ const AdminPage: React.FC = () => {
                       />
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <FormField
-                        control={form.control}
-                        name="category"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Category*</FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
-                            >
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select a category" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {categories.map((category) => (
-                                  <SelectItem key={category} value={category}>
-                                    {category}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="image"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Image URL*</FormLabel>
+                    <FormField
+                      control={form.control}
+                      name="category"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Category*</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
                             <FormControl>
-                              <Input placeholder="https://example.com/image.jpg" {...field} />
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select a category" />
+                              </SelectTrigger>
                             </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
+                            <SelectContent>
+                              {categories.map((category) => (
+                                <SelectItem key={category} value={category}>
+                                  {category}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="image"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Product Image*</FormLabel>
+                          <FormControl>
+                            <ImageUploader 
+                              initialImage={field.value}
+                              onChange={field.onChange}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
                     <FormField
                       control={form.control}
